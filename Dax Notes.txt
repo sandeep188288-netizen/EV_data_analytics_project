@@ -1,0 +1,431 @@
+Bonus Dax function:
+CAGR for EV Makers = 
+var FirstYear = CALCULATE(MIN(Dates[fiscal_year]),all(Dates))
+
+VAR LastYear = CALCULATE(MAX(Dates[fiscal_year]),all(Dates))
+
+VAR FirstYearEVSales =
+CALCULATE(
+[EV Sold Makers],
+Dates[fiscal_year]=FirstYear
+)
+
+VAR LastYearEVSales =
+CALCULATE(
+[EV Sold Makers],
+Dates[fiscal_year]=LastYear
+)
+
+VAR NumberOfYears = LastYear-FirstYear
+
+RETURN
+IF(
+
+    NumberOfYears>0,
+    (DIVIDE(LastYearEVSales,FirstYearEVSales,0)^DIVIDE(1,NumberOfYears,0))-1,
+    blank()
+)
+
+==================================================================================
+
+
+1.  EVs Sold LY Makers = CALCULATE([EV Sold Makers], SAMEPERIODLASTYEAR(Dates[date]))
+
+==================================================================================
+
+2. △ EVs Sold Makers = 
+VAR CurrentYearSold = [ EV Sold Makers]
+VAR PreviousYearSold = [EVs Sold LY Makers]
+
+RETURN
+IF(
+    PreviousYearSold = 0,
+    "N/A",  // Custom message indicating that the percentage cannot be calculated
+    (CurrentYearSold - PreviousYearSold) / ABS(PreviousYearSold)
+)
+
+==================================================================================
+
+3. EVs Sold LY Makers & △ EVs Sold Makers = 
+VAR PreviousYearSales = [EVs Sold LY Makers]
+VAR SalesChange = [△ EVs Sold Makers]
+
+VAR PreviousYearFormatted = 
+    SWITCH(
+        TRUE(),
+        ABS(PreviousYearSales) >= 1000000000, FORMAT(PreviousYearSales, "#,,,.0bn"),
+        ABS(PreviousYearSales) >= 1000000, FORMAT(PreviousYearSales, "#,,.0M"),
+        ABS(PreviousYearSales) >= 1000, FORMAT(PreviousYearSales, "#,.0K"),
+        FORMAT(PreviousYearSales, "#,##0")
+    )
+
+VAR SalesChangeFormatted = 
+    IF(
+        SalesChange < 0,
+        " (-" & FORMAT(ABS(SalesChange), "#,##0.0%") & ")",
+        " (" & FORMAT(SalesChange, "#,##0.0%") & ")"
+    )
+
+RETURN
+PreviousYearFormatted & " " & SalesChangeFormatted
+
+==================================================================================
+
+4. Revenue 2Ws LY Makers = CALCULATE([Revenue 2Ws ₹ Makers],SAMEPERIODLASTYEAR(Dates[date]))
+
+==================================================================================
+
+5. △ Revenue 2Ws Makers ₹ = 
+VAR CurrentYearRev = [Revenue 2Ws Makers]
+VAR PreviousYearRev = [Revenue 2Ws ₹ LY Makers]
+
+RETURN
+IF(
+    PreviousYearRev = 0,
+    "N/A",  // Custom message indicating that the percentage cannot be calculated
+    (CurrentYearRev - PreviousYearRev) / ABS(PreviousYearRev)
+)
+
+
+==================================================================================
+
+6. Rev 2Ws ₹ LY Makers & △ Revenue 2Ws Makers = 
+VAR PreviousYearRevenue = [Revenue 2Ws ₹ LY Makers]
+VAR RevenueChange = [△ Revenue 2Ws Makers ₹]
+VAR CurrentYearRevenue = [Revenue 2Ws Makers]
+
+VAR PreviousYearFormatted = 
+    SWITCH(
+        TRUE(),
+        ABS(PreviousYearRevenue) >= 1000000000, FORMAT(PreviousYearRevenue, "₹#,,,.0bn"),
+        ABS(PreviousYearRevenue) >= 1000000, FORMAT(PreviousYearRevenue, "₹#,,.0M"),
+        ABS(PreviousYearRevenue) >= 1000, FORMAT(PreviousYearRevenue, "₹#,.0K"),
+        FORMAT(PreviousYearRevenue, "₹#,##0")
+    )
+
+VAR RevenueChangeFormatted = 
+    IF(
+        CurrentYearRevenue = 0 && PreviousYearRevenue > 0,
+        " (-" & FORMAT(ABS(RevenueChange), "#,##0.0%") & ")",
+        " (" & FORMAT(RevenueChange, "#,##0.0%") & ")"
+    )
+
+RETURN
+PreviousYearFormatted & " " & RevenueChangeFormatted
+
+
+
+==================================================================================
+
+7. Revenue 4Ws ₹ LY Makers = CALCULATE([Revenue 4Ws ₹ Makers],SAMEPERIODLASTYEAR(Dates[date]))
+
+
+==================================================================================
+
+8. △ Revenue 4Ws Makers ₹ = 
+VAR CurrentYearRev = [Revenue 4Ws Makers]
+VAR PreviousYearRev = [Revenue 4Ws ₹ LY Makers]
+
+RETURN
+IF(
+    PreviousYearRev = 0,
+    "N/A",  // Custom message indicating that the percentage cannot be calculated
+    (CurrentYearRev - PreviousYearRev) / ABS(PreviousYearRev)
+)
+
+
+==================================================================================
+
+9. Rev 4Ws ₹ LY Makers & △ Revenue 4Ws Makers = 
+VAR PreviousYearRevenue = [Revenue 4Ws ₹ LY Makers]
+VAR RevenueChange = [△ Revenue 4Ws Makers ₹]
+VAR CurrentYearRevenue = [Revenue 4Ws Makers]
+
+VAR PreviousYearFormatted = 
+    SWITCH(
+        TRUE(),
+        ABS(PreviousYearRevenue) >= 1000000000, FORMAT(PreviousYearRevenue, "₹#,,,.0bn"),
+        ABS(PreviousYearRevenue) >= 1000000, FORMAT(PreviousYearRevenue, "₹#,,.0M"),
+        ABS(PreviousYearRevenue) >= 1000, FORMAT(PreviousYearRevenue, "₹#,.0K"),
+        FORMAT(PreviousYearRevenue, "₹#,##0")
+    )
+
+VAR RevenueChangeFormatted = 
+    IF(
+        CurrentYearRevenue = 0 && PreviousYearRevenue > 0,
+        " (-" & FORMAT(ABS(RevenueChange), "#,##0.0%") & ")",
+        " (" & FORMAT(RevenueChange, "#,##0.0%") & ")"
+    )
+
+RETURN
+PreviousYearFormatted & " " & RevenueChangeFormatted
+
+
+=================================================================================
+
+
+
+10. Ranking_Makers_EV_Sold_ribbon_chart_filter = 
+VAR _salesThreshold = 0
+
+-- Apply the date filter context and maker filter context
+VAR _filteredMakers = 
+    CALCULATETABLE(
+        FILTER(
+            ALLSELECTED(EV Makers[maker]), 
+            [EV Sold Makers] > _salesThreshold
+        ),
+        ALLSELECTED(Dates)
+    )
+
+-- Calculate the rank for top EV makers within the date context
+VAR _topEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [EV Sold Makers], 
+        , 
+        DESC, 
+        DENSE
+    )
+
+-- Calculate the rank for bottom EV makers within the date context
+VAR _bottomEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [EV Sold Makers], 
+        , 
+        ASC, 
+        DENSE
+    )
+
+-- Determine if we are showing top or bottom makers
+VAR _ranking = 
+    SWITCH(
+        TRUE(),
+        SELECTEDVALUE('TopBottom'[Value]) = "Top", _topEvMakers,
+        SELECTEDVALUE('TopBottom'[Value]) = "Bottom", _bottomEvMakers
+    )
+
+-- Check if the maker falls within the TopN or BottomN
+VAR IsInTopOrBottomN = 
+    _ranking <= MIN(SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers]), 15)        // The MIN function ensures that our dynamic TopN parameter doesn't exceed the visual's TopN filter. This way, we won't inadvertently set the TopN parameter higher than what the visual can display.
+
+-- Return the EV sales value for the top N or bottom N makers, only if it's in the top/bottom N and non-zero
+RETURN
+IF(
+    IsInTopOrBottomN && [EV Sold Makers] > _salesThreshold,
+    [EV Sold Makers],
+    BLANK()
+)
+
+=================================================================================
+
+
+11. Ranking_Makers_Marketshare = 
+VAR _salesThreshold = 0
+
+-- Apply the date filter context and maker filter context
+VAR _filteredMakers = 
+    CALCULATETABLE(
+        FILTER(
+            ALLSELECTED(EV makers[maker]), 
+            [MarketShare EV Makers] > _salesThreshold
+        ),
+        ALLSELECTED(Dates)
+    )
+
+-- Calculate the rank for top EV makers within the date context
+VAR _topEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [MarketShare EV Makers], 
+        , 
+        DESC, 
+        DENSE
+    )
+
+-- Calculate the rank for bottom EV makers within the date context
+VAR _bottomEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [MarketShare EV Makers], 
+        , 
+        ASC, 
+        DENSE
+    )
+
+-- Determine if we are showing top or bottom makers
+VAR _ranking = 
+    SWITCH(
+        TRUE(),
+        SELECTEDVALUE('TopBottom'[Value]) = "Top", _topEvMakers,
+        SELECTEDVALUE('TopBottom'[Value]) = "Bottom", _bottomEvMakers
+    )
+
+-- Check if the maker falls within the TopN or BottomN
+VAR IsInTopOrBottomN = 
+    _ranking <= SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+
+-- Return the Marketshare value for the top N or bottom N makers, only if it's in the top/bottom N and non-zero
+RETURN
+SWITCH(
+    TRUE(),
+    IsInTopOrBottomN && [MarketShare EV Makers] <> _salesThreshold,
+    [MarketShare EV Makers],
+    BLANK()
+)
+
+
+===============================================================================
+
+12. Ranking_EVs_Sold_Makers = 
+VAR _salesThreshold = 0
+
+-- Apply the date filter context and maker filter context
+VAR _filteredMakers = 
+    CALCULATETABLE(
+        FILTER(
+            ALLSELECTED('EV Makers'[maker]), 
+            [EV Sold Makers] > _salesThreshold
+        ),
+        ALLSELECTED(Dates)
+    )
+
+-- Calculate the rank for top EV makers within the date context
+VAR _topEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [EV Sold Makers], 
+        , 
+        DESC, 
+        DENSE
+    )
+
+-- Calculate the rank for bottom EV makers within the date context
+VAR _bottomEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [EV Sold Makers], 
+        , 
+        ASC, 
+        DENSE
+    )
+
+-- Determine if we are showing top or bottom makers
+VAR _ranking = 
+    SWITCH(
+        TRUE(),
+        SELECTEDVALUE('TopBottom'[Value]) = "Top", _topEvMakers,
+        SELECTEDVALUE('TopBottom'[Value]) = "Bottom", _bottomEvMakers
+    )
+
+-- Check if the maker falls within the TopN or BottomN
+VAR IsInTopOrBottomN = 
+    _ranking <= SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+
+-- Return the EV sales value for the top N or bottom N makers, only if it's in the top/bottom N and non-zero
+RETURN
+SWITCH(
+    TRUE(),
+    IsInTopOrBottomN && [EV Sold Makers] <> _salesThreshold,
+    [EV Sold Makers],
+    BLANK()
+)
+
+
+==================================================================================
+
+
+13. Makers Growth Rate % YoY = 
+VAR CurrentYearSales = 
+    CALCULATE(
+        [EV Sold Makers],
+        ALLSELECTED(Dates[date])
+    )
+
+VAR PreviousYearSales = 
+    CALCULATE(
+        [EV Sold Makers],
+        SAMEPERIODLASTYEAR(Dates[date])
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(PreviousYearSales),
+    DIVIDE(CurrentYearSales - PreviousYearSales, PreviousYearSales, 0),
+    BLANK()
+)
+
+
+===============================================================================
+
+14. Ranking_Makers_GrowthRate_YoY_based_on_marketshare = 
+VAR _salesThreshold = 0
+
+-- Return the Growth Rate YoY value for the top N or bottom N makers, only if it's in the top/bottom N and non-zero
+RETURN
+SWITCH(
+    TRUE(),
+    [Ranking_Makers_Marketshare] <> _salesThreshold,
+    [Makers Growth Rate % YoY],
+    BLANK()
+)
+
+
+
+========================================================================================================================================================
+
+15. Ranking_Makers_CAGR = 
+VAR _salesThreshold = -1            // -1 if we want to Exclude -100% CAGR values
+VAR _filteredMakers = 
+    FILTER(
+        ALL('EV makers'[maker]), 
+        [CAGR for EV Makers] <> _salesThreshold
+    )
+
+VAR _topEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [CAGR for EV Makers], 
+        , 
+        DESC, 
+        DENSE
+    )
+
+VAR _bottomEvMakers = 
+    RANKX(
+        _filteredMakers, 
+        [CAGR for EV Makers], 
+        , 
+        ASC, 
+        DENSE
+    )
+
+VAR _ranking = 
+    SWITCH(
+        TRUE(),
+        SELECTEDVALUE('TopBottom'[Value]) = "Top", _topEvMakers,
+        SELECTEDVALUE('TopBottom'[Value]) = "Bottom", _bottomEvMakers
+    )
+
+RETURN
+IF(
+    _ranking <= SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers]) && [CAGR for EV Makers] <> _salesThreshold,
+    [CAGR for EV Makers],
+    BLANK()
+)
+
+
+
+================================================================================================================================================
+
+
+16. Labels Placeholder for Bar Chart = 
+VAR _salesThreshold = 0
+
+RETURN
+IF(
+    [Ranking_Makers_CAGR] <> _salesThreshold,
+    0,
+    BLANK()
+)

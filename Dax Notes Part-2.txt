@@ -1,0 +1,843 @@
+1. Top / Bottom N Title For Ribbon Chart Makers Page = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for Makers'), 'TopN Slicers for Makers'[TopN Makers])  -- Get the maximum value from the TopN slicer
+VAR SelectedMaker = IF(HASONEVALUE('EV makers'[maker]), SELECTEDVALUE('EV makers'[maker]), BLANK())
+VAR SelectedFiscalYear = IF(HASONEVALUE(dates[fiscal_year]), SELECTEDVALUE(dates[fiscal_year]), BLANK())
+
+RETURN
+IF(
+    NOT(ISBLANK(SelectedMaker)),
+    IF(
+        NOT(ISBLANK(SelectedFiscalYear)),
+        "Quarterly Sales Trends of " & SelectedMaker & " in Fiscal Year " & SelectedFiscalYear,  -- If maker and fiscal year are selected
+        "Quarterly Sales Trends of " & SelectedMaker & " (2022-24)"  -- If maker is selected but no fiscal year
+    ),
+    IF(
+        ActualCount = MaxTopN,
+        IF(
+            NOT(ISBLANK(SelectedFiscalYear)),
+            "Quarterly Sales Trends of All EV Makers in Fiscal Year " & SelectedFiscalYear,  -- If max TopN and fiscal year are selected
+            "Quarterly Sales Trends of All EV Makers (2022-24)"  -- If max TopN is selected and no fiscal year
+        ),
+        IF(
+            NOT(ISBLANK(SelectedFiscalYear)),
+            "Quarterly Sales Trends of " & TopOrBottom & " " & ActualCount & " EV Makers in Fiscal Year " & SelectedFiscalYear,  -- If Top/Bottom N and fiscal year are selected
+            "Quarterly Sales Trends of " & TopOrBottom & " " & ActualCount & " EV Makers (2022-24)"  -- Default logic
+        )
+    )
+)
+
+
+
+====================================================================================================================================================
+
+2. Top / Bottom-N Title for Bar Chart Makers Page = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for Makers'), 'TopN Slicers for Makers'[TopN Makers])  -- Get the maximum value from the TopN slicer
+VAR SelectedMaker = IF(HASONEVALUE('EV makers'[maker]), SELECTEDVALUE('EV makers'[maker]), BLANK())
+VAR SelectedFiscalYear = IF(HASONEVALUE(dates[fiscal_year]), SELECTEDVALUE(dates[fiscal_year]), BLANK())
+
+RETURN
+IF(
+    NOT(ISBLANK(SelectedMaker)),
+    IF(
+        NOT(ISBLANK(SelectedFiscalYear)),
+        "Market Share by EVs Sold & Revenue for " & SelectedMaker & " in FY " & SelectedFiscalYear,  -- If maker and fiscal year are selected
+        "Market Share by EVs Sold & Revenue for " & SelectedMaker  -- If only maker is selected
+    ),
+    IF(
+        ActualCount = MaxTopN,
+        IF(
+            NOT(ISBLANK(SelectedFiscalYear)),
+            "Market Share by EVs Sold & Revenue for all EV Makers in FY " & SelectedFiscalYear,  -- If max TopN and fiscal year are selected
+            "Market Share by EVs Sold & Revenue for all EV Makers"  -- If only max TopN is selected
+        ),
+        IF(
+            NOT(ISBLANK(SelectedFiscalYear)),
+            TopOrBottom & " " & ActualCount & " EV Makers by Market Share: EVs Sold & Revenue in FY " & SelectedFiscalYear,  -- If Top/Bottom N and fiscal year are selected
+            TopOrBottom & " " & ActualCount & " EV Makers by Market Share: EVs Sold & Revenue"  -- Default logic
+        )
+    )
+)
+
+
+
+====================================================================================================================================================
+
+3. Top / Bottom N Title For Line Chart Makers Page = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for Makers'), 'TopN Slicers for Makers'[TopN Makers])  -- Get the maximum value from the TopN slicer
+VAR SelectedMaker = IF(HASONEVALUE('EV makers'[maker]), SELECTEDVALUE('EV Makers'[maker]), BLANK())
+VAR SelectedFiscalYear = IF(HASONEVALUE(dates[fiscal_year]), SELECTEDVALUE(dates[fiscal_year]), BLANK())
+
+RETURN
+IF(
+    NOT(ISBLANK(SelectedMaker)),
+    IF(
+        NOT(ISBLANK(SelectedFiscalYear)),
+        "Monthly Sales Trends of " & SelectedMaker & " in Fiscal Year " & SelectedFiscalYear,  -- If maker and fiscal year are selected
+        "Monthly Sales Trends of " & SelectedMaker & " (2022-24)"  -- If maker is selected but no fiscal year
+    ),
+    IF(
+        ActualCount = MaxTopN,
+        IF(
+            NOT(ISBLANK(SelectedFiscalYear)),
+            "Monthly Sales Trends of All EV Makers in Fiscal Year " & SelectedFiscalYear,  -- If max TopN and fiscal year are selected
+            "Monthly Sales Trends of All EV Makers (2022-24)"  -- If max TopN is selected and no fiscal year
+        ),
+        IF(
+            NOT(ISBLANK(SelectedFiscalYear)),
+            "Monthly Sales Trends of " & TopOrBottom & " " & ActualCount & " EV Makers in Fiscal Year " & SelectedFiscalYear,  -- If Top/Bottom N and fiscal year are selected
+            "Monthly Sales Trends of " & TopOrBottom & " " & ActualCount & " EV Makers (2022-24)"  -- Default logic
+        )
+    )
+)
+
+
+
+
+====================================================================================================================================================
+
+4. Top / Bottom -N Title Scatterplot Makers Page = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for Makers'), 'TopN Slicers for Makers'[TopN Makers])  -- Get the maximum value from the TopN slicer
+VAR SelectedMaker = IF(HASONEVALUE('EV makers'[maker]), SELECTEDVALUE('EV makers'[maker]), BLANK())
+
+RETURN
+IF(
+    NOT(ISBLANK(SelectedMaker)),
+    "Market Share vs. YoY Growth Rate by " & SelectedMaker,  -- If a maker is selected
+    IF(
+        ActualCount = MaxTopN,
+        "Market Share vs. YoY Growth Rate by all EV Makers",  -- Condition when Max TopN value is selected
+        "Market Share vs. YoY Growth Rate by " & TopOrBottom & " " & ActualCount & " EV Makers"  -- Default Top/Bottom condition
+    )
+)
+
+
+====================================================================================================================================================
+
+5. Top / Bottom -N Title for Horizontal Bar Chart Makers = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for Makers'[TopN Makers])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for Makers'), 'TopN Slicers for Makers'[TopN Makers])  -- Get the maximum value from the TopN slicer
+
+RETURN
+IF(
+    ActualCount = MaxTopN,
+    "CAGR for all EV Makers",
+    "CAGR for " & TopOrBottom & " " & ActualCount & " EV Makers"
+)
+
+
+
+====================================================================================================================================================
+
+6. Total Vehicles Sold = SUM('EV Sales By State'[total_vehicles_sold])
+
+
+====================================================================================================================================================
+
+
+7. Total Vehicles Sold LY States = CALCULATE([Total Vehicles Sold], SAMEPERIODLASTYEAR(dates[date]))
+
+
+====================================================================================================================================================
+
+
+8. △ TVs Sold States = 
+VAR CurrentYearSold = [Total Vehicles Sold]
+VAR PreviousYearSold = [Total Vehicles Sold LY States]
+
+RETURN
+IF(
+    PreviousYearSold = 0,
+    "N/A",  // Custom message indicating that the percentage cannot be calculated
+    (CurrentYearSold - PreviousYearSold) / ABS(PreviousYearSold)
+)
+
+
+====================================================================================================================================================
+
+
+
+9. TVs Sold LY States & △ TVs Sold States = 
+VAR PreviousYearSales = [Total Vehicles Sold LY States]
+VAR SalesChange = [△ TVs Sold States]
+
+VAR PreviousYearFormatted = 
+    SWITCH(
+        TRUE(),
+        ABS(PreviousYearSales) >= 1000000000, FORMAT(PreviousYearSales, "#,,,.0bn"),
+        ABS(PreviousYearSales) >= 1000000, FORMAT(PreviousYearSales, "#,,.0M"),
+        ABS(PreviousYearSales) >= 1000, FORMAT(PreviousYearSales, "#,.0K"),
+        FORMAT(PreviousYearSales, "#,##0")
+    )
+
+VAR SalesChangeFormatted = 
+    IF(
+        SalesChange < 0,
+        " (-" & FORMAT(ABS(SalesChange), "#,##0.0%") & ")",
+        " (" & FORMAT(SalesChange, "#,##0.0%") & ")"
+    )
+
+RETURN
+PreviousYearFormatted & " " & SalesChangeFormatted
+
+// FORMAT([EVs Sold LY Makers]/1000, "₹#,##0.0K") & FORMAT([△ EVs Sold Makers], " (#,##0.0%)")
+
+====================================================================================================================================================
+
+
+
+10. EV_Sold_State = SUM('EV sales by state'[electric_vehicles_sold])
+
+
+
+====================================================================================================================================================
+
+
+11. CAGR for EV States = 
+-- To ensure that the context of each State is respected when calculating the first and last year sales, we are calculating the minimum and maximum fiscal year within the context of each maker.
+VAR FirstYear = CALCULATE(MIN(dates[fiscal_year]), ALL(dates))
+VAR LastYear = CALCULATE(MAX(dates[fiscal_year]), ALL(dates))
+
+VAR FirstYearEVSales = 
+    CALCULATE(
+        [EV_Sold_State],
+       dates[fiscal_year] = FirstYear
+    )
+
+VAR LastYearEVSales = 
+    CALCULATE(
+        [EV_Sold_State],
+        dates[fiscal_year] = LastYear
+    )
+
+VAR NumberOfYears = LastYear - FirstYear
+
+RETURN
+IF(
+    NumberOfYears > 0,
+    ( DIVIDE(LastYearEVSales, FirstYearEVSales, 0) ^ DIVIDE( 1, NumberOfYears, 0 ) ) - 1,
+    BLANK()
+)
+
+
+====================================================================================================================================================
+
+12. Projected EV Sales 2030 Static = 
+VAR CurrentYearEVSales = CALCULATE([EV_Sold_State], dates[fiscal_year]=2024)
+VAR CAGRValue = [CAGR for EV States]
+VAR YearsToProject = 2030 - MAX(dates[fiscal_year])
+RETURN
+IF(
+    NOT ISBLANK(CAGRValue),
+    CurrentYearEVSales * (1 + CAGRValue) ^ YearsToProject,
+    BLANK()
+)
+
+
+
+====================================================================================================================================================
+
+13. Penetration_Rate = DIVIDE([EV_Sold_State], [Total Vehicles Sold],0)
+
+====================================================================================================================================================
+
+14. dim_states = 
+SUMMARIZE('EV sales by state',
+    'EV sales by state'[state]
+    )
+
+
+====================================================================================================================================================
+
+
+15. Ranking_States_Penetration = 
+VAR _penetrationThreshold = 0
+VAR _filteredStates = 
+    FILTER(
+        ALL(dim_states[state]), 
+        [Penetration_Rate] > _penetrationThreshold
+    )
+// The _filteredStates variable filters out any states with Penetration Rate less than or equal to _penetrationThreshold, which is set to 0. This ensures only states with a penetration rate greater than 0 are considered.
+VAR _topStates = 
+    RANKX(
+        _filteredStates, 
+        [Penetration_Rate], 
+        , 
+        DESC, 
+        DENSE
+    )
+VAR _bottomStates = 
+    RANKX(
+        _filteredStates, 
+        [Penetration_Rate], 
+        , 
+        ASC, 
+        DENSE
+    )
+VAR _ranking = 
+    SWITCH(
+        TRUE(),
+        SELECTEDVALUE('TopBottom'[Value]) = "Top", _topStates,
+        SELECTEDVALUE('TopBottom'[Value]) = "Bottom", _bottomStates
+    )
+RETURN
+IF(
+    AND(
+        _ranking <= SELECTEDVALUE('TopN Slicers for States'[TopN States]), 
+        [Penetration_Rate] > _penetrationThreshold
+    ), 
+    [Penetration_Rate]
+)
+// The final RETURN statement only returns the penetration rate for states whose rank is within the selected TopN range and whose penetration rate is greater than the threshold.
+
+
+====================================================================================================================================================
+
+16. Projected EV Sales 2030 = 
+VAR CurrentYearEVSales = CALCULATE([EV_Sold_State], dates[fiscal_year]=2024)
+VAR CAGRValue = [CAGR for EV States]
+VAR YearsToProject = 2030 - MAX(dates[fiscal_year])
+RETURN
+IF(
+    NOT ISBLANK([Ranking_States_Penetration]) && NOT ISBLANK(CAGRValue),
+    CurrentYearEVSales * ((1 + CAGRValue) ^ YearsToProject),
+    BLANK()
+)
+
+
+====================================================================================================================================================
+
+
+17. Ranking_States_EV_CAGR_based_on_penetration = 
+VAR _salesThreshold = 0     // -1 if we want to Exclude -100% CAGR values
+
+RETURN
+IF(
+    [Ranking_States_Penetration] <> _salesThreshold,
+    [CAGR for EV States],
+    BLANK()
+)
+
+
+====================================================================================================================================================
+
+
+18. Top / Bottom-N Title for Clustered Column Chart States Page = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for States'[TopN States])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for States'), 'TopN Slicers for States'[TopN States])  -- Get the maximum value from the TopN States slicer
+
+RETURN 
+IF(
+    ActualCount = MaxTopN,
+    "2030 Projected EV Sales, EV CAGR & Penetration Rate for All States",
+    "2030 Projected EV Sales, EV CAGR & Penetration Rate for " & TopOrBottom & " " & ActualCount & " States"
+)
+
+
+====================================================================================================================================================
+
+
+19. Ranking_State_Evs_sold_based_on_penetration_numeric = 
+VAR _salesThreshold = 0
+
+RETURN
+IF(
+    [Ranking_States_Penetration] <> _salesThreshold, 
+    [EV_Sold_State],
+    BLANK()
+)
+
+
+====================================================================================================================================================
+
+
+
+20. Top / Bottom-N Title for Bar Chart States Page = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for States'[TopN States])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for States'), 'TopN Slicers for States'[TopN States])  -- Get the maximum value from the TopN States slicer
+VAR SelectedFiscalYear = IF(HASONEVALUE(dates[fiscal_year]), SELECTEDVALUE(Dates[fiscal_year]), BLANK())
+
+RETURN
+IF(
+    ActualCount = MaxTopN,
+    IF(
+        NOT(ISBLANK(SelectedFiscalYear)),
+        "States by Penetration Rate with EV Sales in FY " & SelectedFiscalYear,  -- Max TopN and fiscal year selected
+        "States by Penetration Rate with EV Sales"  -- Only max TopN selected
+    ),
+    IF(
+        NOT(ISBLANK(SelectedFiscalYear)),
+        TopOrBottom & " " & ActualCount & " States by Penetration Rate with EV Sales in FY " & SelectedFiscalYear,  -- Top/Bottom N and fiscal year selected
+        TopOrBottom & " " & ActualCount & " States by Penetration Rate with EV Sales"  -- Default logic
+    )
+)
+
+
+====================================================================================================================================================
+
+
+21. PR 2022 = 
+// Calculating the annual penetration rates for each state, and filter out states with 0.00% penetration rates: 
+VAR PR2024 = CALCULATE(
+    [Penetration_Rate], 
+    'dates'[fiscal_year] = 2024
+)
+VAR PR2022 = CALCULATE(
+    [Penetration_Rate], 
+    'dates'[fiscal_year] = 2022
+)
+RETURN
+IF(
+    PR2022 = 0 && PR2024 = 0,
+    BLANK(),  -- If both PR2022 and PR2024 are 0, return BLANK
+    IF(
+        ISBLANK(PR2022) && PR2024 > 0, 
+        0,  -- Return 0 instead of BLANK if PR2022 is BLANK and PR2024 has a value
+        PR2022
+    )
+)
+
+// CALCULATE(
+//     [Penetration Rate], 
+//     'dates'[fiscal_year] = 2022
+// )
+
+====================================================================================================================================================
+
+22. PR 2023 = 
+// Calculating the annual penetration rates for each state, and filter out states with 0.00% penetration rates: 
+VAR PR2022 = [PR 2022]
+VAR PR2023 = CALCULATE(
+    [Penetration_Rate], 
+    'Dates'[fiscal_year] = 2023
+)
+VAR PR2024 = [PR 2024]
+RETURN
+IF(
+    PR2022 = 0 && PR2023 = 0 && PR2024 = 0,
+    BLANK(),  -- If PR2022, PR2023, and PR2024 are 0, return BLANK
+    IF(
+        ISBLANK(PR2023) && (PR2022 > 0 || PR2024 > 0),
+        0,  -- Return 0 instead of BLANK if PR2023 is BLANK and either PR2022 or PR2024 has a value
+        PR2023
+    )
+)
+
+// CALCULATE(
+//     [Penetration Rate], 
+//     'Dates'[fiscal_year] = 2023
+// )
+
+
+====================================================================================================================================================
+
+23. PR 2024 = 
+ // Calculating the annual penetration rates for each state, and filter out states with 0.00% penetration rates:  
+VAR PR2022 = CALCULATE(
+    [Penetration_Rate], 
+    'Dates'[fiscal_year] = 2022
+)
+VAR PR2024 = CALCULATE(
+    [Penetration_Rate], 
+    'Dates'[fiscal_year] = 2024
+)
+RETURN
+IF(
+    PR2022 = 0 && PR2024 = 0,
+    BLANK(),  -- If both PR2022 and PR2024 are 0, return BLANK
+    IF(
+        ISBLANK(PR2024) && PR2022 > 0,
+        0,  -- Return 0 instead of BLANK if PR2024 is BLANK and PR2022 has a value
+        PR2024
+    )
+)
+
+// CALCULATE(
+//     [Penetration Rate], 
+//     'Dates'[fiscal_year] = 2024
+// )
+
+
+
+====================================================================================================================================================
+
+24. Overall Decline Relative Chg = 
+// Absolute Change: simpler and provides a straightforward comparison in percentage points.
+// [PR 2024] - [PR 2022]
+
+// Relative Change: (with division) provides context on how significant the change is relative to the initial value, which can be more insightful in certain analyses.
+VAR PR22 = [PR 2022]
+VAR PR24 = [PR 2024]
+RETURN
+IF(
+    ISBLANK(PR22) && ISBLANK(PR24),  -- If both are BLANK (filtered out), return BLANK
+    BLANK(),
+    IF(
+        PR22 > 0 || PR24 > 0,  -- Consider states where there's data in either year
+        DIVIDE(PR24 - PR22, PR22, 0),  -- Calculate relative change
+        BLANK()
+    )
+)
+
+
+====================================================================================================================================================
+
+25. Is Declining YoY = 
+VAR PR22 = [PR 2022]
+VAR PR23 = [PR 2023]
+VAR PR24 = [PR 2024]
+RETURN
+-- Checking if there is an overall decline in penetration rate over the period:
+IF(
+    ISBLANK(PR22) && ISBLANK(PR23) && ISBLANK(PR24),
+    BLANK(),
+    IF(
+        PR24 < PR23 && PR23 < PR22 && PR22 > 0,  -- Decline only if PR22 > 0 and subsequent years show a decrease
+        "Is Declining YoY",
+        "Not Declining YoY"
+    )
+)
+
+
+
+====================================================================================================================================================
+
+
+26. TimePeriodsTable = 
+DATATABLE(
+    "TimePeriod", INTEGER,
+    "PeriodLabel", STRING,
+    {
+        {1, "22vs23"},
+        {2, "23vs24"},
+        {3, "22vs24"}
+    }
+)
+
+
+====================================================================================================================================================
+
+27.  Revenue 2W EVs ₹ State = 
+CALCULATE(
+    SUMX(
+        FILTER(
+            'EV sales by state',
+            'EV sales by state'[vehicle_category] = "2-Wheelers"
+        ),
+        'EV sales by state'[electric_vehicles_sold] * 85000
+    )
+)
+
+
+====================================================================================================================================================
+
+28. Growthrate 2Ws 23vs22 = 
+VAR Revenue2022 = 
+    CALCULATE(
+        [Revenue 2W EVs ₹ State],
+        FILTER(dates, dates[fiscal_year] = 2022)
+    )
+VAR Revenue2023 =
+    CALCULATE(
+        [Revenue 2W EVs ₹ State],
+        FILTER(dates, dates[fiscal_year] = 2023)
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(Revenue2022),
+    DIVIDE((Revenue2023-Revenue2022), Revenue2022, 0),
+    BLANK()
+)
+
+====================================================================================================================================================
+
+29. Growthrate 2Ws 24vs22 = 
+VAR Revenue2022 = 
+    CALCULATE(
+        [Revenue 2W EVs ₹ State],
+        FILTER(dates, dates[fiscal_year] = 2022)
+    )
+VAR Revenue2024 =
+    CALCULATE(
+        [Revenue 2W EVs ₹ State],
+        FILTER(dates, dates[fiscal_year] = 2024)
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(Revenue2022),
+    DIVIDE((Revenue2024-Revenue2022), Revenue2022, 0),
+    BLANK()
+)
+
+====================================================================================================================================================
+
+30. Growthrate 2Ws 24vs23 = 
+VAR Revenue2023 = 
+    CALCULATE(
+        [Revenue 2W EVs ₹ State],
+        FILTER(dates, dates[fiscal_year] = 2023)
+    )
+VAR Revenue2024 =
+    CALCULATE(
+        [Revenue 2W EVs ₹ State],
+        FILTER(dates, dates[fiscal_year] = 2024)
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(Revenue2023),
+    DIVIDE((Revenue2024-Revenue2023), Revenue2023, 0),
+    BLANK()
+)
+
+====================================================================================================================================================
+
+31. Dynamic Growthrate 2Ws = 
+SWITCH(
+    SELECTEDVALUE(TimePeriodsTable[TimePeriod]),
+    1, [Growthrate 2Ws 23vs22],
+    2, [Growthrate 2Ws 24vs23],
+    3, [Growthrate 2Ws 24vs22],
+    BLANK() // Default case if none match
+)
+
+
+====================================================================================================================================================
+
+32. Revenue 4W EVs ₹ State = 
+CALCULATE(
+    SUMX(
+        FILTER(
+            'EV sales by state',
+            'EV sales by state'[vehicle_category] = "4-Wheelers"
+        ),
+        'EV sales by state'[electric_vehicles_sold] * 1500000
+    )
+)
+
+====================================================================================================================================================
+
+33. Growthrate 4Ws 23vs22 = 
+VAR Revenue2022 = 
+    CALCULATE(
+        [Revenue 4W EVs ₹ State],
+        FILTER(Dates, Dates[fiscal_year] = 2022)
+    )
+VAR Revenue2023 =
+    CALCULATE(
+        [Revenue 4W EVs ₹ State],
+        FILTER(Dates, Dates[fiscal_year] = 2023)
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(Revenue2022),
+    DIVIDE((Revenue2023-Revenue2022), Revenue2022, 0),
+    BLANK()
+)
+
+====================================================================================================================================================
+
+34. Growthrate 4Ws 24vs22 = 
+VAR Revenue2022 = 
+    CALCULATE(
+        [Revenue 4W EVs ₹ State],
+        FILTER(Dates, Dates[fiscal_year] = 2022)
+    )
+VAR Revenue2024 =
+    CALCULATE(
+        [Revenue 4W EVs ₹ State],
+        FILTER(Dates, Dates[fiscal_year] = 2024)
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(Revenue2022),
+    DIVIDE((Revenue2024-Revenue2022), Revenue2022, 0),
+    BLANK()
+)
+
+====================================================================================================================================================
+
+35. Growthrate 4Ws 24vs23 = 
+VAR Revenue2023 = 
+    CALCULATE(
+        [Revenue 4W EVs ₹ State],
+        FILTER(Dates, Dates[fiscal_year] = 2023)
+    )
+VAR Revenue2024 =
+    CALCULATE(
+        [Revenue 4W EVs ₹ State],
+        FILTER(Dates, Dates[fiscal_year] = 2024)
+    )
+
+RETURN
+IF(
+    NOT ISBLANK(Revenue2023),
+    DIVIDE((Revenue2024-Revenue2023), Revenue2023, 0),
+    BLANK()
+)
+
+====================================================================================================================================================
+
+
+
+36. Dynamic Growthrate 4Ws = 
+SWITCH(
+    SELECTEDVALUE(TimePeriodsTable[TimePeriod]),
+    1, [Growthrate 4Ws 23vs22],
+    2, [Growthrate 4Ws 24vs23],
+    3, [Growthrate 4Ws 24vs22],
+    BLANK() // Default case if none match
+)
+
+
+====================================================================================================================================================
+
+37.  Combined Growthrate = 
+SWITCH(
+    TRUE(),
+    ISBLANK(SELECTEDVALUE('EV category'[vehicle_category])) || SELECTEDVALUE('EV category'[vehicle_category]) = "2-Wheelers", [Dynamic Growthrate 2Ws],
+    SELECTEDVALUE('EV category'[vehicle_category]) = "4-Wheelers", [Dynamic Growthrate 4Ws],
+    BLANK() // Default case if none match
+)
+// With this measure, when the slicer is not filtered (no category is selected), the waterfall chart will display the growth rate for 2-Wheelers by default. If "4-Wheelers" is selected in the slicer, it will show the growth rate for 4-Wheelers.
+
+-- Another Simple Method Where nothing is selected the chart becomes Blank
+// SWITCH(
+//     TRUE(),
+//     SELECTEDVALUE('EV category'[vehicle_category]) = "2-Wheelers", [Dynamic Growthrate 2Ws],
+//     SELECTEDVALUE('EV category'[vehicle_category]) = "4-Wheelers", [Dynamic Growthrate 4Ws],
+//     BLANK() // Default case if none match
+// )
+
+
+====================================================================================================================================================
+
+38. Dynamic Waterfall Chart Title States = 
+SWITCH(
+    TRUE(),
+    ISBLANK(SELECTEDVALUE('EV category'[vehicle_category])) || SELECTEDVALUE('EV category'[vehicle_category]) = "2-Wheelers", 
+    "Comparative Growth Rate Analysis for 2-Wheeler EVs",
+    SELECTEDVALUE('EV category'[vehicle_category]) = "4-Wheelers", 
+    "Comparative Growth Rate Analysis for 4-Wheeler EVs",
+    "Growth Rate Breakdown"
+)
+
+====================================================================================================================================================
+
+
+
+39. CAGR for Total Vehicles = 
+
+VAR FirstYearTVSales = 
+CALCULATE(
+    [Total Vehicles Sold],
+    FILTER(Dates, Dates[fiscal_year] = MIN(Dates[fiscal_year]))
+)
+
+VAR LastYearTVSales = 
+CALCULATE(
+    [Total Vehicles Sold],
+    FILTER(Dates, Dates[fiscal_year] = MAX(Dates[fiscal_year]))
+)
+
+VAR NumberOfYears = MAX(Dates[fiscal_year]) - MIN(Dates[fiscal_year])
+
+RETURN
+IF(
+    NumberOfYears > 0,
+    ( DIVIDE( LastYearTVSales, FirstYearTVSales, 0 ) ^ DIVIDE( 1, NumberOfYears, 0 ) ) - 1,
+    BLANK()
+)
+
+
+====================================================================================================================================================
+
+40. Ranking_States_CAGR_TV = 
+VAR _salesThreshold = 0        // -1 if we want to Exclude -100% CAGR values
+VAR _filteredStates = 
+    FILTER(
+        ALL(dim_states[state]), 
+        [CAGR for Total vehicles] <> _salesThreshold // Exclude -100% CAGR values
+    )
+
+VAR _topCAGRStates = 
+    RANKX(
+        _filteredStates, 
+        [CAGR for Total vehicles], 
+        , 
+        DESC, 
+        DENSE
+    )
+
+VAR _bottomCAGRStates = 
+    RANKX(
+        _filteredStates, 
+        [CAGR for Total vehicles], 
+        , 
+        ASC, 
+        DENSE
+    )
+
+VAR _ranking = 
+    SWITCH(
+        TRUE(),
+        SELECTEDVALUE('TopBottom'[Value]) = "Top", _topCAGRStates,
+        SELECTEDVALUE('TopBottom'[Value]) = "Bottom", _bottomCAGRStates
+    )
+
+RETURN
+IF(
+    _ranking <= SELECTEDVALUE('TopN Slicers for States'[TopN States])&& [CAGR for Total Vehicles] <> _salesThreshold,
+    [CAGR for Total vehicles],
+    BLANK()
+)
+
+
+
+====================================================================================================================================================
+
+41.  Labels Placeholder for Horizontal Bar Chart for CAGR State TV = 
+VAR _salesThreshold = 0
+
+RETURN
+IF(
+    [Ranking_States_CAGR_TV] <> _salesThreshold,
+    0,
+    BLANK()
+)
+
+====================================================================================================================================================
+
+
+
+42.  TopBottomN_Title_for_Horizontal_Bar_Chart_States_TV = 
+VAR TopOrBottom = IF(HASONEVALUE(TopBottom[Value]), SELECTEDVALUE(TopBottom[Value]), "Top")
+VAR ActualCount = SELECTEDVALUE('TopN Slicers for States'[TopN States])
+VAR MaxTopN = MAXX(ALL('TopN Slicers for States'), 'TopN Slicers for States'[TopN States])  -- Get the maximum value from the TopN slicer
+
+RETURN
+IF(
+    ActualCount = MaxTopN,
+    "CAGR for States Total Vehicles",
+    "CAGR for " & TopOrBottom & " " & ActualCount & " States Total Vehicles"
+)
+
+====================================================================================================================================================
+
+
+43. Labels Bar Chart CAGR TV - States = SELECTEDVALUE(dim_states[state])
+
